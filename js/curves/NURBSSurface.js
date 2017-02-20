@@ -38,8 +38,6 @@ THREE.NURBSSurface = function ( degree1, degree2, knots1, knots2 /* arrays of re
 };
 
 
-
-
 THREE.NURBSSurface.prototype = {
 
 	constructor: THREE.NURBSSurface,
@@ -50,6 +48,22 @@ THREE.NURBSSurface.prototype = {
 		var v = this.knots2[ 0 ] + t2 * ( this.knots2[ this.knots2.length - 1 ] - this.knots2[ 0 ] ); // linear mapping t2->u
 
 		return THREE.NURBSUtils.calcSurfacePoint( this.degree1, this.degree2, this.knots1, this.knots2, this.controlPoints, u, v );
+
+	},
+
+	getControlPoints: function() {
+		var pointsGeometry = new THREE.Geometry() ;
+		var len1 = this.knots1.length - this.degree1 - 1; //TODO why
+		var len2 = this.knots2.length - this.degree2 - 1;
+
+		for ( var i = 0; i < len1; ++ i ) {
+			for ( var j = 0; j < len2; ++ j ) {
+				var point = nsControlPoints[ i ][ j ];
+				pointsGeometry.vertices.push ( new THREE.Vector3( point.x, point.y, point.z ));
+			}
+		}
+		// console.log(pointsGeometry.vertices)
+		return pointsGeometry; 
 
 	}
 };
