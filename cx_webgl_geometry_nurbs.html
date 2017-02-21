@@ -137,7 +137,7 @@
 
 				//axis 
 				object = new THREE.AxisHelper( 50 );
-				scene.add( object );
+				group.add( object );
 
 
 				renderer = new THREE.WebGLRenderer( { antialias: true } );
@@ -253,12 +253,12 @@
 
 				requestAnimationFrame( animate );
 
-				for ( var i = 0; i < 3; ++ i ) {
-					for ( var j = 0; j < 4; ++ j ) {
-						nsControlPoints[ i ][ j ].add( randomPoint().multiplyScalar( 2 ) ); // wiggle the points 
+				// for ( var i = 0; i < 3; ++ i ) {
+				// 	for ( var j = 0; j < 4; ++ j ) {
+				// 		nsControlPoints[ i ][ j ].add( randomPoint().multiplyScalar( 2 ) ); // wiggle the points 
 					
-					}
-				}
+				// 	}
+				// }
 
 				render();
 				stats.update();
@@ -268,6 +268,21 @@
 			function render() {
 
 				group.rotation.y += ( targetRotation - group.rotation.y ) * 0.05;
+				for ( i = 0; i < scene.children.length; i ++ ) {
+
+					var object = scene.children[ i ];
+
+
+					if ( object instanceof THREE.Points ) {
+
+						object.rotation.y = time * ( i < 4 ? i + 1 : - ( i + 1 ) );
+
+					}
+
+				}
+
+
+
 				renderer.render( scene, camera );
 
 			}
