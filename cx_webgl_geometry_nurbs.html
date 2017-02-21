@@ -119,7 +119,6 @@
 				// var material = new THREE.MeshPhongMaterial( { color: 0xdddddd, specular: 0x009900, shininess: 30, shading: THREE.FlatShading } ) ; 
 				var material = new THREE.MeshBasicMaterial( { wireframe: true } );
 				var object = new THREE.Mesh( geometry, material );
-				object.scale.multiplyScalar( 1 );
 				group.add( object );
 
 				
@@ -253,13 +252,6 @@
 
 				requestAnimationFrame( animate );
 
-				// for ( var i = 0; i < 3; ++ i ) {
-				// 	for ( var j = 0; j < 4; ++ j ) {
-				// 		nsControlPoints[ i ][ j ].add( randomPoint().multiplyScalar( 2 ) ); // wiggle the points 
-					
-				// 	}
-				// }
-
 				render();
 				stats.update();
 
@@ -268,20 +260,21 @@
 			function render() {
 
 				group.rotation.y += ( targetRotation - group.rotation.y ) * 0.05;
-				for ( i = 0; i < scene.children.length; i ++ ) {
+				
+				for ( i = 0; i < group.children.length; i ++ ) {
 
-					var object = scene.children[ i ];
+					var object = group.children[ i ];
 
 
 					if ( object instanceof THREE.Points ) {
-
-						object.rotation.y = time * ( i < 4 ? i + 1 : - ( i + 1 ) );
-
+						object.geometry.vertices[0].x = THREE.Math.randInt(-100,100);
 					}
 
 				}
 
-
+				debugger
+				////https://threejs.org/docs/api/core/Geometry.html
+				// group.geometry.verticesNeedUpdate = true;
 
 				renderer.render( scene, camera );
 
